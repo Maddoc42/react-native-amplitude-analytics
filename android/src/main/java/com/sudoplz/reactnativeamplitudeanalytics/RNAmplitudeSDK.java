@@ -1,24 +1,19 @@
 package com.sudoplz.reactnativeamplitudeanalytics;
 
-import com.amplitude.api.Amplitude;
-
 import android.app.Activity;
 import android.app.Application;
 
-import com.facebook.react.bridge.NativeModule;
+import com.amplitude.api.Amplitude;
+import com.amplitude.api.Revenue;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Map;
 
 public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
 
@@ -87,6 +82,16 @@ public class RNAmplitudeSDK extends ReactContextBaseJavaModule {
   @ReactMethod
   public void logRevenue(String productIdentifier, int quantity, double amount) {
     Amplitude.getInstance().logRevenue(productIdentifier, quantity, amount);
+  }
+
+  @ReactMethod
+  public void logRevenueV2(String productId, int quantity, double price, String receipt, String receiptSignature) {
+    Revenue revenue = new Revenue()
+        .setProductId(productId)
+        .setQuantity(quantity)
+        .setPrice(price)
+        .setReceipt(receipt, receiptSignature);
+    Amplitude.getInstance().logRevenueV2(revenue);
   }
 
   public static JSONObject convertReadableToJsonObject(ReadableMap map) throws JSONException{

@@ -109,6 +109,20 @@ class Amplitude {
       throw new Error('You called Amplitude.logRevenue before initializing it. Run new Amplitute(key) first.');
     }
   }
+
+  logRevenueV2(productId, quantity, price, receipt, receiptSignature) {
+    if (amplitudeHasInitialized) {
+      if (Platform.OS === 'android') {
+        return RNAmplitudeSDK.logRevenueV2(productId, quantity, price, receipt, receiptSignature);
+      } else {
+        throw new Error('TODO: implemented this for iOS');
+      }
+    } else {
+      throw new Error('You called Amplitude.logRevenue before initializing it. Run new Amplitute(key) first.');
+    }
+
+  }
+
 }
 
 
